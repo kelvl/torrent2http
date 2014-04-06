@@ -1,0 +1,11 @@
+language: objective-c
+
+install:
+ - brew update > /dev/null
+ - brew --config
+ - brew --env
+ - brew install swig 2.0.11
+ - brew install go --cross-compile-all
+
+script:
+ - make install
