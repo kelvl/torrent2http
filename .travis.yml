@@ -34,4 +34,4 @@ after_success:
   - git add -A .
   - git commit -m "Deploying successful build"
   # - git remote add upload git@github.com:kelvl/torrent2http.git
-  - git push deploy deploy
+  - git push origin deploy
