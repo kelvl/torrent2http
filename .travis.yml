@@ -23,6 +23,6 @@ install:
  - git checkout HEAD Library/Formula/libtorrent-rasterbar.rb
 
 script:
- - mkdir gopath/src/github.com/steeve
+ - mkdir -p gopath/src/github.com/steeve
  - git clone https://github.com/steeve/libtorrent-go.git gopath/src/github.com/steeve/libtorrent-go
- - GOPATH=. make install
+ - GOPATH=. make
