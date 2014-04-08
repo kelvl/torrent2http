@@ -4,8 +4,24 @@ install:
  - brew update > /dev/null
  - brew --config
  - brew --env
- - brew install swig 2.0.11
+ # install swig 2.0.11
+ - cd $(brew --prefix)
+ # look at all versions
+ - brew versions swig
+ # 2.0.11   git checkout b51b660 Library/Formula/swig.rb
+ - git checkout b51b660 Library/Formula/swig.rb
+ - brew install swig
+ # restore brew's versions
+ - git checkout HEAD Library/Formula/swig.rb
+ # install go with all cross compiles
  - brew install go --cross-compile-all
+ # install libtorrent-rasterbar 0.16.13
+ - brew versions libtorrent-rasterbar
+ - git checkout 08eda3b Library/Formula/libtorrent-rasterbar.rb
+ - brew install libtorrent-rasterbar
+ - git checkout HEAD Library/Formula/libtorrent-rasterbar.rb
 
 script:
- - make install
+ - mkdir gopath/src/github.com/steeve
+ - git clone https://github.com/steeve/libtorrent-go.git gopath/src/github.com/steeve/libtorrent-go
+ - GOPATH=. make install
