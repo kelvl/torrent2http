@@ -1,28 +1,37 @@
 language: objective-c
-
 install:
- - brew update > /dev/null
- - brew --config
- - brew --env
- # install swig 2.0.11
- # look at all versions
- - brew versions swig
- # 2.0.11   git checkout b51b660 Library/Formula/swig.rb
- - (cd $(brew --prefix); git checkout b51b660 Library/Formula/swig.rb)
- - brew install swig
- # restore brew's versions
- - (cd $(brew --prefix); git checkout HEAD Library/Formula/swig.rb)
- # install go with all cross compiles
- - brew unlink go
- - brew install go --cross-compile-all
- # install libtorrent-rasterbar 0.16.13
- - brew versions libtorrent-rasterbar
- - (cd $(brew --prefix); git checkout 08eda3b Library/Formula/libtorrent-rasterbar.rb)
- - brew install libtorrent-rasterbar
- - (cd $(brew --prefix); git checkout HEAD Library/Formula/libtorrent-rasterbar.rb)
-
+  - brew update > /dev/null
+  - brew --config
+  - brew --env
+  - brew versions swig
+  - (cd $(brew --prefix); git checkout b51b660 Library/Formula/swig.rb)
+  - brew install swig
+  - (cd $(brew --prefix); git checkout HEAD Library/Formula/swig.rb)
+  - brew unlink go
+  - brew install go --cross-compile-all
+  - brew versions libtorrent-rasterbar
+  - (cd $(brew --prefix); git checkout 08eda3b Library/Formula/libtorrent-rasterbar.rb)
+  - brew install libtorrent-rasterbar
+  - (cd $(brew --prefix); git checkout HEAD Library/Formula/libtorrent-rasterbar.rb)
 script:
- - mkdir -p gopath/src/github.com/steeve
- - git clone https://github.com/steeve/libtorrent-go.git gopath/src/github.com/steeve/libtorrent-go
- - export GOPATH=$PWD/gopath
- - make
+  - mkdir -p gopath/src/github.com/steeve
+  - git clone https://github.com/steeve/libtorrent-go.git gopath/src/github.com/steeve/libtorrent-go
+  - export GOPATH=$PWD/gopath
+  - make
+branches:
+  except:
+    - deploy
+env:
+  global:
+    secure: IzP1UcbpPKlnRltTSxFHgx1hgpGNhcstjVR0weNQAhOsSgNFxgrp+/8FIg3PcWeEaLCwFa45DXb9kmoCtAuTez3ku68XuTQwApdEMTr6ZZ2EFuH2A5XfEdj6xrT1JuQ+9Eqzj+D+ToNGMq+8RgWEj6MoRnPXkZ3pvqsEgz7PRWc=
+after_succcess:
+  - git clone https://github.com/kelvl/torrent2http.git -b deploy deploy
+  - cd deploy
+  - openssl aes-256-cbc -k "$KEY" -in deploy.github.enc -d -a -out deploy.github
+  - chmod 600 deploy.github
+  - ssh-add deploy.github
+  - cp -R ../build/* ./
+  - git add -A .
+  - git commit -m "Deploying successful build"
+  - git remote add upload git@github.com:kelvl/torrent2http.git
+  - git push upload deploy
