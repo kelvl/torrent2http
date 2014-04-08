@@ -25,13 +25,13 @@ env:
   global:
     secure: IzP1UcbpPKlnRltTSxFHgx1hgpGNhcstjVR0weNQAhOsSgNFxgrp+/8FIg3PcWeEaLCwFa45DXb9kmoCtAuTez3ku68XuTQwApdEMTr6ZZ2EFuH2A5XfEdj6xrT1JuQ+9Eqzj+D+ToNGMq+8RgWEj6MoRnPXkZ3pvqsEgz7PRWc=
 after_success:
-  - git clone https://github.com/kelvl/torrent2http.git -b deploy deploy
+  - git clone git://github.com/kelvl/torrent2http.git -b deploy deploy
   - cd deploy
-  - openssl aes-256-cbc -k "$KEY" -in deploy.github.enc -d -a -out deploy.github
-  - chmod 600 deploy.github
-  - ssh-add deploy.github
+  # - openssl aes-256-cbc -k "$KEY" -in deploy.github.enc -d -a -out deploy.github
+  # - chmod 600 deploy.github
+  # - ssh-add deploy.github
   - cp -R ../build/* ./
   - git add -A .
   - git commit -m "Deploying successful build"
-  - git remote add upload git@github.com:kelvl/torrent2http.git
-  - git push upload deploy
+  # - git remote add upload git@github.com:kelvl/torrent2http.git
+  - git push deploy deploy
