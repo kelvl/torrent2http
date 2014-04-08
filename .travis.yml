@@ -24,7 +24,7 @@ branches:
 env:
   global:
     secure: IzP1UcbpPKlnRltTSxFHgx1hgpGNhcstjVR0weNQAhOsSgNFxgrp+/8FIg3PcWeEaLCwFa45DXb9kmoCtAuTez3ku68XuTQwApdEMTr6ZZ2EFuH2A5XfEdj6xrT1JuQ+9Eqzj+D+ToNGMq+8RgWEj6MoRnPXkZ3pvqsEgz7PRWc=
-after_succcess:
+after_success:
   - git clone https://github.com/kelvl/torrent2http.git -b deploy deploy
   - cd deploy
   - openssl aes-256-cbc -k "$KEY" -in deploy.github.enc -d -a -out deploy.github
